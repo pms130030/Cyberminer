@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>KWIC Indexer</title>
+        
+        <style>
+            .changePage
+            {
+                float: right;
+            }
+            
+            #formdiv
+            {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .padding
+            {
+                padding: 3px;
+            }
+            body{
+                font-family: 'latoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;
+                color: #5C666A;
+            }
+        </style>
+            
+    </h:head>
+    <h:body>
+        <div id="formdiv">
+        <h1 class="title formdiv">KWIC Indexer</h1>
+        </div>
+        <p:button value="Cyberminer" outcome="cyberminer.xhtml" styleClass="changePage"/>
+        
+        <h:form>
+            <div id="formdiv">
+                <h:outputLabel value="Input" />
+                <br></br>
+                <p:inputTextarea value="#{indexer.lines}" rows="6" cols="100"/>
+                <br></br>
+                <h:commandButton value="Parse Lines" action="#{indexer.buildIndices}"/>
+                <p:selectOneRadio value="#{indexer.currBuildOption}" label="Index build option">
+                    <f:selectItem itemLabel="Update"  itemValue="1"/>
+                    <f:selectItem itemLabel="Inital Build" itemValue="2"/>
+                </p:selectOneRadio>
+                <h:outputLabel value="#{indexer.errorLabel}"/>
+            </div>
+
+            <p:dataTable value="#{indexer.urls}" var="entry" paginator="true" rows="10"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="URL"/>
+                  </f:facet>
+                    <h:outputLink value="#{entry.url}">#{entry.url}</h:outputLink>
+                </p:column>
+                
+                <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Alphabetized Descriptor"/>
+                  </f:facet>
+                    <h:dataTable value="#{entry.parsedLines}" var="info">
+                        <p:column >
+                            <h:outputText value="#{info}"/>
+                        </p:column>
+                    </h:dataTable>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Cirularly Shifted Descriptor"/>
+                  </f:facet>
+                    <h:dataTable value="#{entry.circularLines}" var="info">
+                        <p:column >
+                            <h:outputText value="#{info}"/>
+                        </p:column>
+                    </h:dataTable>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

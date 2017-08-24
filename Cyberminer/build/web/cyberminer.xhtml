@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
+      xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <title>Cyberminer</title>
+        
+        <style>            
+            .changePage
+            {
+                float: right;
+            }
+            
+            #formdiv
+            {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .padding
+            {
+                padding: 3px;
+            }
+            body{
+                font-family: 'latoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;
+                color: #5C666A;
+            }
+
+        </style>
+        
+    </h:head>
+    <h:body>
+        <div id="formdiv">
+            <h1 class="title">Cyberminer Search Engine</h1>
+            <p:button value="KWIC Indexer" outcome="kwicIndexer.xhtml" styleClass="changePage"/>
+            <h:form>
+                <p:inputText value="#{searchController.search}" size="60"/>
+                <h:commandButton value="Search" action="#{searchController.doSearch}"/>
+                <p:outputLabel value="#{searchController.errorLabel}"/>
+            </h:form>
+        </div>
+        <br></br>
+        <h:form>    
+            <p:dataTable value="#{searchController.urls}" var="entry" paginator="true" rows="10"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Search results"/>
+                  </f:facet>
+                    <h:outputLink value="#{entry}">#{entry}</h:outputLink>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
